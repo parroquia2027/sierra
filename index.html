@@ -16,6 +16,7 @@
       --blanco: #ffffff;
       --gris-texto: #333333;
       --sombra: 0 4px 12px rgba(46, 125, 50, 0.12);
+      --tamano-texto: 18px;
     }
 
     * {
@@ -65,7 +66,7 @@
       border: 2px solid var(--verde-medio);
       border-radius: 12px;
       padding: 14px 20px;
-      margin-bottom: 28px;
+      margin-bottom: 16px;
       text-align: center;
       box-shadow: var(--sombra);
       font-size: 0.95rem;
@@ -82,6 +83,55 @@
       color: var(--verde-oscuro);
       font-weight: 600;
       font-size: 1.05rem;
+    }
+
+    .controles-letra {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 12px;
+      background: var(--blanco);
+      border: 1px solid var(--verde-suave);
+      border-radius: 12px;
+      box-shadow: var(--sombra);
+    }
+
+    .controles-letra span {
+      color: var(--verde-texto);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .boton-letra {
+      min-width: 44px;
+      min-height: 42px;
+      padding: 6px 12px;
+      border: 1px solid var(--verde-oscuro);
+      border-radius: 8px;
+      background: var(--verde-palido);
+      color: var(--verde-texto);
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .boton-letra:active {
+      background: var(--verde-suave);
+    }
+
+    .boton-letra:focus-visible {
+      outline: 3px solid var(--verde-medio);
+      outline-offset: 3px;
+    }
+
+    .tamano-actual {
+      min-width: 45px;
+      text-align: center;
+      color: var(--verde-texto);
+      font-weight: 700;
+      font-size: 0.9rem;
     }
 
     .seccion {
@@ -108,21 +158,22 @@
       overflow-x: hidden;
       padding: 18px;
       word-wrap: break-word;
-      font-size: 1rem;
-      line-height: 1.65;
+      font-size: var(--tamano-texto);
+      line-height: 1.7;
       color: #2c3e50;
       background: #fafdfb;
     }
 
     .texto-scrollable h3 {
       color: var(--verde-oscuro);
-      font-size: 1.1rem;
+      font-size: 1.1em;
       margin: 14px 0 6px;
       font-weight: 700;
     }
 
     .texto-scrollable p {
       margin: 4px 0;
+      font-size: 1em;
     }
 
     .texto-scrollable::-webkit-scrollbar {
@@ -149,9 +200,8 @@
       }
 
       .texto-scrollable {
-        max-height: 240px;
+        max-height: 300px;
         padding: 14px;
-        font-size: 0.95rem;
       }
 
       .seccion-titulo {
@@ -162,6 +212,11 @@
       .ultima-actualizacion {
         padding: 12px 14px;
         font-size: 0.9rem;
+      }
+
+      .controles-letra {
+        gap: 8px;
+        padding: 10px 6px;
       }
     }
 
@@ -188,14 +243,38 @@
       <span class="fecha" id="fecha-actualizacion">Cargando...</span>
     </div>
 
+    <!-- Controles para aumentar o reducir el tamaño de letra -->
+    <div class="controles-letra" aria-label="Controles del tamaño de letra">
+      <span>Tamaño de letra:</span>
+
+      <button class="boton-letra" id="reducir-letra"
+        type="button" aria-label="Reducir tamaño de letra">
+        A−
+      </button>
+
+      <span class="tamano-actual" id="tamano-actual" aria-live="polite">
+        18 px
+      </span>
+
+      <button class="boton-letra" id="aumentar-letra"
+        type="button" aria-label="Aumentar tamaño de letra">
+        A+
+      </button>
+
+      <button class="boton-letra" id="restablecer-letra"
+        type="button" aria-label="Restablecer tamaño de letra">
+        A
+      </button>
+    </div>
+
     <div class="seccion">
       <div class="seccion-titulo">Horarios</div>
-      <div class="texto-scrollable" id="texto1">Cargando lecturas...</div>
+      <div class="texto-scrollable" id="texto1">Cargando horarios...</div>
     </div>
 
     <div class="seccion">
       <div class="seccion-titulo">Lecturas</div>
-      <div class="texto-scrollable" id="texto2">Cargando horarios...</div>
+      <div class="texto-scrollable" id="texto2">Cargando lecturas...</div>
     </div>
 
     <div class="seccion">
@@ -267,7 +346,7 @@
         if (
           /^(Is|Sal|Rom|1 Cor|2 Cor|Mt|Mc|Lc|Jn|Ef|Flp|Col|Ap|Hch|Jr|Ez|Gn|Ex)\s/i.test(t)
         ) {
-          return `<p style="color:#558b55;font-size:0.95rem;margin:2px 0 6px">${seguro}</p>`;
+          return `<p style="color:#558b55;font-size:0.95em;margin:2px 0 6px">${seguro}</p>`;
         }
 
         // Fórmulas litúrgicas
@@ -293,7 +372,7 @@
         }
 
         // Texto normal
-        return `<p style="margin:4px 0;line-height:1.65">${seguro}</p>`;
+        return `<p style="margin:4px 0;line-height:1.7">${seguro}</p>`;
 
       }).join('');
     }
@@ -329,6 +408,38 @@
     cargarTexto('texto4', 'aviso2.txt');
     cargarTexto('texto5', 'aviso3.txt');
 
+    // Controlar el tamaño de letra de las cinco cajas
+    (function() {
+
+      let tamano = 18;
+
+      const raiz = document.documentElement;
+      const indicador = document.getElementById('tamano-actual');
+
+      function actualizarTamano() {
+        raiz.style.setProperty('--tamano-texto', tamano + 'px');
+        indicador.textContent = tamano + ' px';
+      }
+
+      document.getElementById('reducir-letra').addEventListener('click', function() {
+        tamano = Math.max(14, tamano - 2);
+        actualizarTamano();
+      });
+
+      document.getElementById('aumentar-letra').addEventListener('click', function() {
+        tamano = Math.min(24, tamano + 2);
+        actualizarTamano();
+      });
+
+      document.getElementById('restablecer-letra').addEventListener('click', function() {
+        tamano = 18;
+        actualizarTamano();
+      });
+
+      actualizarTamano();
+
+    })();
+
     // Fecha de última modificación
     (function() {
 
@@ -355,3 +466,4 @@
   </script>
 </body>
 </html>
+
