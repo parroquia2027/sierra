@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avisos parroquia</title>
+
+  <style>
+    :root {
+      --verde-palido: #e8f5e9;
+      --verde-suave: #c8e6c9;
+      --verde-medio: #81c784;
+      --verde-oscuro: #2e7d32;
+      --verde-texto: #1b5e20;
+      --blanco: #ffffff;
+      --gris-texto: #333333;
+      --sombra: 0 4px 12px rgba(46, 125, 50, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--verde-palido);
+      color: var(--gris-texto);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px 16px 40px;
+    }
+
+    .contenedor {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding: 28px 20px 20px;
+      background: linear-gradient(135deg, var(--verde-suave), #dcedc8);
+      border-radius: 16px;
+      box-shadow: var(--sombra);
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.4rem);
+      color: var(--verde-texto);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .subtitulo {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: var(--verde-oscuro);
+      opacity: 0.9;
+    }
+
+    .ultima-actualizacion {
+      background: var(--blanco);
+      border: 2px solid var(--verde-medio);
+      border-radius: 12px;
+      padding: 14px 20px;
+      margin-bottom: 28px;
+      text-align: center;
+      box-shadow: var(--sombra);
+      font-size: 0.95rem;
+    }
+
+    .ultima-actualizacion strong {
+      color: var(--verde-texto);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1rem;
+    }
+
+    .fecha {
+      color: var(--verde-oscuro);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .seccion {
+      background: var(--blanco);
+      border-radius: 14px;
+      margin-bottom: 22px;
+      box-shadow: var(--sombra);
+      overflow: hidden;
+      border: 1px solid var(--verde-suave);
+    }
+
+    .seccion-titulo {
+      background: linear-gradient(90deg, var(--verde-medio), var(--verde-suave));
+      color: var(--verde-texto);
+      padding: 12px 18px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--verde-suave);
+    }
+
+    .texto-scrollable {
+      max-height: 280px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 18px;
+      word-wrap: break-word;
+      font-size: 1rem;
+      line-height: 1.65;
+      color: #2c3e50;
+      background: #fafdfb;
+    }
+
+    .texto-scrollable h3 {
+      color: var(--verde-oscuro);
+      font-size: 1.1rem;
+      margin: 14px 0 6px;
+      font-weight: 700;
+    }
+
+    .texto-scrollable p {
+      margin: 4px 0;
+    }
+
+    .texto-scrollable::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .texto-scrollable::-webkit-scrollbar-track {
+      background: #e8f5e9;
+      border-radius: 4px;
+    }
+
+    .texto-scrollable::-webkit-scrollbar-thumb {
+      background: var(--verde-medio);
+      border-radius: 4px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 12px 10px 30px;
+      }
+
+      header {
+        padding: 22px 16px 16px;
+      }
+
+      .texto-scrollable {
+        max-height: 240px;
+        padding: 14px;
+        font-size: 0.95rem;
+      }
+
+      .seccion-titulo {
+        font-size: 1rem;
+        padding: 10px 14px;
+      }
+
+      .ultima-actualizacion {
+        padding: 12px 14px;
+        font-size: 0.9rem;
+      }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: var(--verde-oscuro);
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contenedor">
+
+    <header>
+      <h1>Avisos parroquia</h1>
+      <p class="subtitulo">Prádena</p>
+    </header>
+
+    <div class="ultima-actualizacion">
+      <strong>🕒 Última actualización</strong>
+      <span class="fecha" id="fecha-actualizacion">Cargando...</span>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-titulo">Lecturas</div>
+      <div class="texto-scrollable" id="texto1">Cargando lecturas...</div>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-titulo">Horarios</div>
+      <div class="texto-scrollable" id="texto2">Cargando horarios...</div>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-titulo">Aviso uno</div>
+      <div class="texto-scrollable" id="texto3">Cargando aviso...</div>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-titulo">Aviso dos</div>
+      <div class="texto-scrollable" id="texto4">Cargando aviso...</div>
+    </div>
+
+    <div class="seccion">
+      <div class="seccion-titulo">Aviso tres</div>
+      <div class="texto-scrollable" id="texto5">Cargando aviso...</div>
+    </div>
+
+    <footer>
+      Página creada para uso parroquial
+    </footer>
+
+  </div>
+
+  <script>
+
+    // Evitar que el texto pueda introducir código HTML
+    function escaparHTML(texto) {
+      return texto.replace(/[&<>"']/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[c]);
+    }
+
+    // Dar formato automático a los cinco archivos
+    function darFormatoLiturgico(texto) {
+
+      const lineas = texto.split(/\r?\n/);
+
+      const titulosLiturgicos =
+        /^(Primera lectura|Segunda lectura|Salmo responsorial|Aleluya|Evangelio)$/i;
+
+      const titulosGenerales =
+        /^(horarios?( de misa)?|avisos?( parroquiales)?|misas|celebraciones|catequesis|bautizos|bodas|confesiones|despacho parroquial|actividades|agenda|información|informaciones|oración|otros avisos)$/i;
+
+      return lineas.map(linea => {
+
+        const t = linea.trim();
+
+        if (!t) {
+          return '<div style="height:0.6em"></div>';
+        }
+
+        const seguro = escaparHTML(t);
+
+        // Títulos litúrgicos y títulos generales
+        if (
+          titulosLiturgicos.test(t) ||
+          titulosGenerales.test(t) ||
+          (/^[A-ZÁÉÍÓÚÜÑ0-9\s:.,()-]{3,55}$/.test(t) &&
+           /[A-ZÁÉÍÓÚÜÑ]/.test(t))
+        ) {
+          return `<h3>${seguro}</h3>`;
+        }
+
+        // Referencias bíblicas
+        if (
+          /^(Is|Sal|Rom|1 Cor|2 Cor|Mt|Mc|Lc|Jn|Ef|Flp|Col|Ap|Hch|Jr|Ez|Gn|Ex)\s/i.test(t)
+        ) {
+          return `<p style="color:#558b55;font-size:0.95rem;margin:2px 0 6px">${seguro}</p>`;
+        }
+
+        // Fórmulas litúrgicas
+        if (/^Palabra de (Dios|el Señor)\.?$/i.test(t)) {
+          return `<p style="color:#2e7d32;font-weight:700;margin-top:10px">${seguro}</p>`;
+        }
+
+        // Respuestas del salmo y aleluya
+        if (/^(R\.|V\.)/.test(t)) {
+          const esRespuesta = t.startsWith('R.');
+
+          return `<p style="margin:5px 0;${esRespuesta ? 'color:#2e7d32;font-weight:600;' : ''}">${seguro}</p>`;
+        }
+
+        // Introducciones de las lecturas
+        if (/^(Lectura del |\+\s*Lectura del )/i.test(t)) {
+          return `<p style="font-style:italic;color:#555;margin:5px 0 10px">${seguro}</p>`;
+        }
+
+        // Subtítulos que terminan en dos puntos
+        if (t.length < 65 && /:$/.test(t)) {
+          return `<p style="color:#2e7d32;font-weight:700;margin:9px 0 4px">${seguro}</p>`;
+        }
+
+        // Texto normal
+        return `<p style="margin:4px 0;line-height:1.65">${seguro}</p>`;
+
+      }).join('');
+    }
+
+    // Cargar cada archivo
+    async function cargarTexto(id, archivo) {
+
+      try {
+
+        const respuesta = await fetch(archivo);
+
+        if (!respuesta.ok) {
+          throw new Error('No se pudo cargar');
+        }
+
+        const texto = await respuesta.text();
+
+        document.getElementById(id).innerHTML =
+          darFormatoLiturgico(texto);
+
+      } catch (error) {
+
+        document.getElementById(id).textContent =
+          'Error al cargar el texto. Asegúrate de haber subido el archivo ' + archivo;
+
+      }
+    }
+
+    // Cargar los cinco archivos
+    cargarTexto('texto1', 'lecturas.txt');
+    cargarTexto('texto2', 'horarios.txt');
+    cargarTexto('texto3', 'aviso1.txt');
+    cargarTexto('texto4', 'aviso2.txt');
+    cargarTexto('texto5', 'aviso3.txt');
+
+    // Fecha de última modificación
+    (function() {
+
+      const fechaElemento =
+        document.getElementById('fecha-actualizacion');
+
+      const ultimaModificacion =
+        new Date(document.lastModified);
+
+      const opciones = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      };
+
+      fechaElemento.textContent =
+        ultimaModificacion.toLocaleDateString('es-ES', opciones);
+
+    })();
+
+  </script>
+</body>
+</html>
